@@ -1,0 +1,400 @@
+<!DOCTYPE HTML>  
+<html>
+<head>
+<style>
+.error {color: #FF0000;}
+</style>
+<title>formulaire</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body>  
+<table width="800px" height = "300px" align="center"> 
+<td width="20px"bgcolor="FFF5EE" style="color:rgb(0, 0, 0); padding:20px"> 
+<center>
+<table border=5px;>
+<tr>
+<td><p><strong><h1>Formulaire d'inscription</h1></strong></p></td>
+</tr>
+</table>
+</center>
+<body bgcolor="#000000">
+
+<br>
+<label for="img">Select image:</label>
+  <button type="file" class="btn btn-secondary"><input type="file" id="img" name="img" accept="image/*"></button>
+  <br>
+
+<?php
+// define variables and set to empty values
+$NomErr = $PrénomErr = $Date_de_naissanceErr = $NationalitéErr = $SexeErr = $Ville_de_résidenceErr = $AdresseErr = $N°_de_telephoneErr = $E_mailErr = $Option_BacErr = $CINErr = $CNEErr = $Date_d_inscriptionErr = $OrientationErr ="";
+$Nom = $Prénom = $Date_de_naissance = $Nationalité = $Sexe = $Ville_de_résidence = $Adresse = $N°_de_telephone = $E_mail = $Option_Bac = $CIN = $CNE = $Date_d_inscription = $Orientation = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+
+// NOM
+if (empty($_POST["Nom"])) {
+    $NomErr = "";
+  } else {
+    $Nom = test_input($_POST["Nom"]);
+    if (!preg_match("/^[a-zA-Z-' ]*$/",$Nom)) {
+        $NomErr = "Only letters and white space allowed";
+      }
+  }
+  
+
+// PRENOM
+  if (empty($_POST["Prénom"])) {
+    $PrénomErr = "";
+  } else {
+    $Prénom = test_input($_POST["Prénom"]);
+    if (!preg_match("/^[a-zA-Z-' ]*$/",$Prénom)) {
+        $PrénomErr = "Only letters and white space allowed";
+      }
+  }
+
+// DATE DE NAISSANCE
+if (empty($_POST["Date de naissance"])) {
+    $Date_de_naissanceErr = "";
+  } else {
+    $Date_de_naissance = test_input($_POST["Date de naissance"]);
+  }
+
+
+// NATIONALITÉ
+if (empty($_POST["Nationalité"])) {
+    $NationalitéErr = "";
+  } else {
+    $Nationalité = test_input($_POST["Nationalité"]);
+  }
+
+
+// SEXE
+ if (empty($_POST["Sexe"])) {
+    $SexeErr = "";
+ } else {
+    $Sexe = test_input($_POST["Sexe"]);
+ }
+
+
+// Ville de résidence
+ if (empty($_POST["Ville de résidence"])) {
+    $Ville_de_résidenceErr = "";
+ } else {
+    $Ville_de_résidence = test_input($_POST["Ville de résidence"]);
+ }
+
+
+// Adresse
+ if (empty($_POST["Adresse"])) {
+    $AdresseErr = "";
+ } else {
+    $Adresse = test_input($_POST["Adresse"]);
+    if (!preg_match("/^[a-zA-Z-' ]*$/",$Adresse)) {
+        $AdresseErr = "Only letters and white space allowed";
+      }
+ }
+
+
+// N° DE TELEPHONE
+ if (empty($_POST["N° de telephone"])) {
+    $N°_de_telephoneErr = "";
+ } else {
+    $N°_de_telephone = test_input($_POST["N° de telephone"]);
+ } 
+
+
+// E-MAIL
+if (empty($_POST["E-mail"])) {
+    $E_mailErr = "";
+ } else {
+    $E_mail = test_input($_POST["E-mail"]);
+    
+ } 
+
+
+// OPTION BAC
+ if (empty($_POST["Option Bac"])) {
+    $Option_BacErr = "";
+ } else {
+    $Option_Bac = test_input($_POST["Option Bac"]);
+ } 
+
+
+// CIN
+ if (empty($_POST["CIN"])) {
+    $CINErr = "";
+ } else {
+    $CIN = test_input($_POST["CIN"]);
+    if (!preg_match("/^[a-zA-Z-' ]*$/",$Adresse)) {
+        $AdresseErr = "Only letters and numbers allowed";
+      }
+ } 
+
+
+// CNE
+ if (empty($_POST["CNE"])) {
+    $CNEErr = "";
+ } else {
+    $CNE = test_input($_POST["CNE"]);
+    if (!preg_match("/^[a-zA-Z-' ]*$/",$Adresse)) {
+        $AdresseErr = "Only letters and numbers allowed";
+      }
+ } 
+
+
+// DATE D'INSCRIPTION
+ if (empty($_POST["Date d'inscription"])) {
+    $Date_d_inscriptionErr = "";
+  } else {
+    $Date_d_inscription = test_input($_POST["Date d'inscription"]);
+  } 
+
+
+// ORIENTATION
+if (empty($_POST["Orientation"])) {
+    $OrientationErr = "";
+  } else {
+    $Orientation = test_input($_POST["Orientation"]);
+  } 
+}
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+?>
+
+
+<p><span class="error">* required field</span></p>
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+
+<!-- NOM -->
+  Nom: <input type="text" name="Nom">
+  <span class="error">* <?php echo $NomErr;?></span>
+  <br><br>
+
+
+
+<!-- PRENOM -->
+  Prénom: <input type="text" name="Prénom">
+  <span class="error">* <?php echo $PrénomErr;?></span>
+  <br><br>
+
+<!-- TABLEAU DES MOIS -->
+<?php 
+$mois=array(1=>"Janvier",2=>"Février",3=>"Mars",4=>"Avril",
+5=>"Mai",6=>"Juin",7=>"Juillet",8=>"Aout",
+9=>"Septembre",10=>"Octobre",11=>"Noveembre",12=>"Decembre");
+ ?>
+
+ 
+
+<!-- DATE DE NAISSANCE -->
+<label>
+Date de naissance :
+<!-- DATE DE NAISSANCE (JOURS) -->
+<select name="Jour" id="Jour">
+<?php for($jour=1;$jour<=31;$jour++){?>
+<option value="<?php echo $jour ?>"><?php echo $jour?></option>
+<?php } ?>
+</select>
+<!-- DATE DE NAISSANCE (MOIS) -->
+<select name="Mois" id="Mois">
+<?php foreach($mois as $cle=>$moiss){?>
+<option value="<?php echo $moiss ?>"><?php echo $moiss?></option>
+<?php } ?>
+</select>
+<!-- DATE DE NAISSANCE (ANNEES) -->
+<select name="Annee" id="Annee">
+<?php for($annee=1900;$annee<=2021;$annee++){?>
+<option value="<?php echo $annee ?>"><?php echo $annee?></option>
+<?php } ?>
+</select>
+</label>
+
+
+
+
+  <span class="error">* <?php echo $Date_de_naissanceErr;?></span>
+  <br><br>
+
+
+<!-- LIEU DE NAISSANCE -->
+Lieu de naissance: <input type="text" name="Lieu de naissance">
+  <span class="error">* <?php echo $Lieu_de_naissanceErr;?></span>
+  <br><br>
+
+
+<!-- NATIONNALITE -->
+  Nationalité: 
+<select name = "nationalite">
+<option value = "m"> Veuillez sélectionner la nationnalité </option>
+<option value = "m"> Marocain </option>
+<option value = "f"> Français </option>
+<option value = "f"> Anglais </option>
+<option value = "f"> Portugalais </option>
+<option value = "f"> Maltais </option>
+<option value = "f"> Japonnais </option>
+<option value = "f"> Congolais </option>
+<option value = "f"> Sénégalais </option>
+<option value = "f"> Irlandais </option>
+<option value = "f"> Chinois </option>
+<option value = "f"> Hongrois </option>
+<option value = "f"> Suédois </option>
+<option value = "f"> Danois </option>
+<option value = "f"> Québécois </option>
+<option value = "f"> Américain </option>
+<option value = "f"> Mexicain </option>
+<option value = "f"> Roumain </option>
+<option value = "f"> Cubain </option>
+<option value = "f"> Indien </option>
+<option value = "f"> Chilien </option>
+<option value = "f"> Péruvien </option>
+<option value = "f"> Canadien </option>
+<option value = "f"> Brésilien </option>
+<option value = "f"> Italien </option>
+<option value = "f"> Australien </option>
+<option value = "f"> Norvégien </option>
+<option value = "f"> Estonien </option>
+<option value = "f"> Autrichien </option>
+<option value = "f"> Coréen </option>
+</select>
+<span class="error">* <?php echo $NationaliéErr;?></span>
+</p>
+
+
+
+<!-- Sexe -->
+Sexe:
+  <input type="radio" name="Sexe" value="female">Female
+  <input type="radio" name="Sexe" value="male">Male
+  <input type="radio" name="Sexe" value="other">Other
+  <span class="error">* <?php echo $SexeErr;?></span>
+  <br><br>
+
+<!-- VILLE DE RESIDENCE -->
+  Ville de résidence:
+<select name = "Ville de résidence">
+<option value = "m"> Veuillez sélectionner la ville </option>
+<option value = "m"> Rabat </option>
+<option value = "f"> Témara </option>
+<option value = "f"> Skhirat </option>
+<option value = "f"> Salé </option>
+<option value = "f"> Kenitra </option>
+<option value = "f"> Tanger </option>
+<option value = "f"> Tetouane </option>
+<option value = "f"> M'diq </option>
+<option value = "f"> Fnideq </option>
+<option value = "f"> Agadir </option>
+<option value = "f"> Casablanca </option>
+<option value = "f"> Fès </option>
+<option value = "f"> Essaouira </option>
+ </select>
+ <span class="error">* <?php echo $Ville_de_résidenceErr;?></span>
+ <br>
+ <br>
+
+
+
+ 
+ <!-- Adresse -->
+  Adresse: <textarea name="comment" rows="5" cols="40"></textarea>
+  <span class="error">* <?php echo $NomErr;?></span>
+  <br><br>
+  
+
+   
+ <!-- N° de telephone -->
+N° de telephone: 
+<select name = "N° de telephone">
+<option value = "m"> +212 </option>
+<option value = "f"> +93 </option>
+<option value = "f"> +49 </option>
+<option value = "f"> +55 </option>
+<option value = "f"> +34 </option>
+<option value = "f"> +33 </option>
+<input name="N° de telephone" type="text">
+<span class="error">* <?php echo $NomErr;?></span>
+<br><br>
+
+
+<!-- E-MAIL -->
+E-mail: <input type="text" name="email">
+  <span class="error">* <?php echo $emailErr;?></span>
+  <br><br>
+
+
+<!-- OPTION BAC -->
+Option Bac: 
+<select name = "Option Bac">
+<option value = "m"> Saisir votre option Bac </option>
+<option value = "m"> Sciences Maths </option>
+<option value = "f"> Sciences Physiques </option>
+<option value = "f"> Sciences Economiques </option>
+</select>
+<span class="error">* <?php echo $NomErr;?></span>
+<br><br>
+
+
+<!-- CIN -->
+CIN: 
+<input name="CIN" type="text">
+<span class="error">* <?php echo $NomErr;?></span>
+<br><br>
+
+
+<!-- CNE -->
+CNE:  
+<input name="cne" type="text">
+<span class="error">* <?php echo $NomErr;?></span>
+<br><br>
+
+
+<!-- DATE D'INSCRIPTION -->
+<label>
+Date d'inscription :
+<!-- DATE D'INSCRIPTION (JOURS) -->
+<select name="Jour_in" id="Jour_in">
+<?php for($jour_in=1;$jour_in<=31;$jour_in++){?>
+<option value="<?php echo $jour_in ?>"><?php echo $jour_in ?></option>
+<?php } ?>
+</select>
+<!-- DATE D'INSCRIPTION (MOIS) -->
+<select name="Mois_in" id="Mois_in">
+<?php foreach($mois as $cle_in=>$moiss_in){?>
+<option value="<?php echo $moiss_in ?>"><?php echo $moiss_in ?></option>
+<?php } ?>
+</select>
+<!-- DATE D'INSCRIPTION (ANNEES) -->
+<select name="Annee_in" id="Annee_in">
+<?php for($annee_in=2015;$annee_in<=2021;$annee_in++){?>
+<option value="<?php echo $annee_in ?>"><?php echo $annee_in?></option>
+<?php } ?>
+</select>
+<span class="error">* <?php echo $NomErr;?></span>
+</label>
+<br>
+<br>
+
+
+<!-- ORIENTATION -->
+Orientation:
+<select name = "Orientation">
+<option value = "m"> HEI </option>
+<option value = "m"> ISEN </option>
+<option value = "f"> ISA </option>
+</select>
+<span class="error">* <?php echo $NomErr;?></span>
+<br><br>
+
+<input type="submit" name="submit" value="Submit">
+</form>
+
+
+
+</body>
+</html>
